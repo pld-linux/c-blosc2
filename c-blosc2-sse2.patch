@@ -1,0 +1,20 @@
+--- c-blosc2-2.8.0/CMakeLists.txt.orig	2023-03-24 13:21:55.000000000 +0100
++++ c-blosc2-2.8.0/CMakeLists.txt	2023-04-27 20:41:26.413894097 +0200
+@@ -127,6 +127,8 @@ option(PREFER_EXTERNAL_ZLIB
+     "Find and use external ZLIB library instead of included sources." OFF)
+ option(PREFER_EXTERNAL_ZSTD
+     "Find and use external ZSTD library instead of included sources." OFF)
++option(REQUIRE_SSE2
++	"Use SSE2 instructions without runtime detection." OFF)
+ 
+ set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
+ 
+@@ -339,7 +341,7 @@ endif()
+ # Set the "-msse2" build flag only if the CMAKE_C_FLAGS is not already set.
+ # Probably "-msse2" should be appended to CMAKE_C_FLAGS_RELEASE.
+ if(CMAKE_C_COMPILER_ID STREQUAL GNU OR CMAKE_C_COMPILER_ID STREQUAL Clang OR CMAKE_C_COMPILER_ID STREQUAL Intel)
+-    if(NOT CMAKE_C_FLAGS AND COMPILER_SUPPORT_SSE2)
++    if(NOT CMAKE_C_FLAGS AND COMPILER_SUPPORT_SSE2 AND REQUIRE_SSE2)
+         set(CMAKE_C_FLAGS -msse2 CACHE STRING "C flags." FORCE)
+     endif()
+ endif()
